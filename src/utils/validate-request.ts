@@ -9,12 +9,12 @@ export const requestSchema = z.object({
 export const validateRequest = (schema: ZodType) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
-      schema.parse(req.body);
-      (req as any).validatedBody = req.body; // Attach validated data to request object
+      const parsedData = schema.parse(req.body);
+      (req as any).validatedBody = parsedData; // Attach validated/sanitized data to request object
       next();
     } catch (error) {
-      if (error instanceof ValidationError) {
-        next(new ValidationError(error.message, error.errors));
+      if (error instanceof z.ZodError) {
+        next(new ValidationError("Validation Error", error.issues));
       } else {
         next(error);
       }

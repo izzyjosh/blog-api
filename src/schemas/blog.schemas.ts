@@ -23,3 +23,29 @@ export const createBlogResponseSchema = createBlogSchema.extend({
 });
 
 export type CreateBlogResponseDTO = z.infer<typeof createBlogResponseSchema>;
+
+// ======== update blog schema ========
+export const updateBlogSchema = z.object({
+  title: z.string().trim().min(1, "Title cannot be empty").optional(),
+  content: z.string().trim().min(1, "Content cannot be empty").optional(),
+  category: z.string().trim().min(1, "Category cannot be empty").optional(),
+  tags: z
+    .array(
+      z
+        .object({
+          id: z.string().uuid().optional(),
+          name: z.string().trim().min(1, "Tag name cannot be empty").optional(),
+        })
+        .refine((tag) => tag.id !== undefined || tag.name !== undefined, {
+          message: "Each tag must include either id or name",
+        }),
+    )
+    .optional(),
+  author: z.string().trim().min(1, "Author cannot be empty").optional(),
+});
+
+export type UpdateBlogDTO = z.infer<typeof updateBlogSchema>;
+
+// ======== update blog response schema ========
+export const updateBlogResponseSchema = createBlogResponseSchema;
+export type UpdateBlogResponseDTO = z.infer<typeof updateBlogResponseSchema>;
