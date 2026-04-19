@@ -29,7 +29,7 @@ export class Blog {
 
   @ManyToMany(() => Tag, (tag) => tag.blogs, { cascade: true })
   @JoinTable()
-  tags!: Tag[];
+  tags?: Tag[];
 
   @CreateDateColumn()
   createdAt!: Date;
