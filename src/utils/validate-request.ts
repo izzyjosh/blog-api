@@ -10,6 +10,7 @@ export const validateRequest = (schema: ZodType) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
       schema.parse(req.body);
+      (req as any).validatedBody = req.body; // Attach validated data to request object
       next();
     } catch (error) {
       if (error instanceof ValidationError) {

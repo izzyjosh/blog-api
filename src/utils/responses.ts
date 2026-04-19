@@ -11,18 +11,18 @@ export interface ISuccess<TData> {
 }
 
 export const successResponse = <TData>(
-  data: ISuccess<TData>,
+  data: Omit<ISuccess<TData>, "status">,
 ): ISuccess<TData> => {
   const response: ISuccess<TData> = {
     status: "success",
   };
-  if (data.message) {
+  if (data.message !== undefined) {
     response.message = data.message;
   }
-  if (data.data) {
+  if (data.data !== undefined) {
     response.data = data.data;
   }
-  if (data.metadata) {
+  if (data.metadata !== undefined) {
     response.metadata = data.metadata;
   }
 

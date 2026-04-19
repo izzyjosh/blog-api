@@ -9,6 +9,7 @@ import cors from "cors";
 import { config } from "./config/config";
 import { AppDataSource } from "./config/datasource";
 import { successResponse, ISuccess } from "./utils/responses";
+import { blogRouter } from "./routes/blog.routes";
 
 const port = config.port;
 
@@ -25,6 +26,7 @@ app.use(
 
 app.use(httpLogger);
 
+app.use("/api/blogs", blogRouter);
 app.get("/", (req, res) => {
   const response: ISuccess<undefined> = {
     status: "success",
